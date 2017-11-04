@@ -110,6 +110,5 @@ function app(el, initialState, update, view) {
 
 export default {
     html,
-    render,
     app
 };

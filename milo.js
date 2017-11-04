@@ -1,12 +1,10 @@
 
-function h(tag, props, children) {
+function html(tag, props, children) {
     return {tag: tag, props: props || {}, children: children || []};
 }
 
 function createElement(node) {
-    if (typeof node === 'string') {
-        return document.createTextNode(node);
-    } else {
+    if (typeof node.tag === 'string') {
         const el = document.createElement(node.tag);
         for (const name in node.props) {
             setProp(el, name, node.props[name]);
@@ -15,12 +13,14 @@ function createElement(node) {
             el.appendChild(createElement(node.children[i]));
         }
         return el;
+    } else {
+        return document.createTextNode(node);
     }
 }
 
 function changed(oldNode, newNode) {
     return typeof oldNode !== typeof newNode ||
-        typeof oldNode === 'string' && oldNode !== newNode ||
+        typeof oldNode !== 'object' && oldNode !== newNode ||
         oldNode.tag !== newNode.tag;
 }
 
@@ -95,7 +95,21 @@ function render(el, nodes) {
     updateElement(el, nodes, oldNodes);
 }
 
+function app(el, initialState, update, view) {
+    let state = initialState || {};
+    function dispatch(action) {
+        state = update(action, state);
+        render(el, view(state, dispatch));
+    }
+    render(el, view(initialState, dispatch));
+    return {
+        state: () => state,
+        dispatch: dispatch
+    };
+}
+
 export default {
-    h,
-    render
+    html,
+    render,
+    app
 };

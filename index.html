@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<script type="module">
+import milo from './milo.js';
+
+const h = milo.html;
+
+function update(action, state) {
+    if (action === 'increment') {
+        return {counter: state.counter + 1};
+    } else if (action === 'reset') {
+        return {counter: 0};
+    }
+}
+
+function view(state, dispatch) {
+    return [
+        h('pre', {}, [state.counter]),
+        h('button', {onclick: () => dispatch('increment')}, ['increment']),
+        h('button', {onclick: () => dispatch('reset')}, ['reset']),
+    ];
+}
+
+function state() {
+    return {counter: 0}
+}
+
+window.app = milo.app(document.body, state(), update, view);
+</script>

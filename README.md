@@ -95,7 +95,7 @@ window.app = milo.app(document.body, state(), update, view);
 
 ## The name
 
-[Milo](https://en.wikipedia.org/wiki/Milo_(drink)) happens to be a kind of malt drink
+[Milo](https://en.wikipedia.org/wiki/Milo_(drink)) is a kind of malt drink
 powder popular in Australia which happens to go well with vanilla ice cream.
 
 ## License
